@@ -10,13 +10,13 @@ def estimate_price(mileage, m_now, b_now):
 	return (b_now + (m_now * mileage))
 
 
-def loss_function(m, b, points):
-	total_error = 0
-	for i in range(len(points)):
-		x = points.iloc[i].km
-		y = points.iloc[i].price
-		total_error += ((y - (m * x + b)) ** 2)
-	return (total_error / float(len(points)))
+# def loss_function(m, b, points):
+# 	total_error = 0
+# 	for i in range(len(points)):
+# 		x = points.iloc[i].km
+# 		y = points.iloc[i].price
+# 		total_error += ((y - (m * x + b)) ** 2)
+# 	return (total_error / float(len(points)))
 
 
 def gradient_descent(m_now, b_now, data, L):
@@ -63,8 +63,6 @@ def main():
 	########### prepare animation/graph start ###########
 	fig, ax = plt.subplots()
 	x_max = max_km
-	# if input_mileage > max_km:
-	# 	x_max = input_mileage
 	ax.set_xlim(min_km, max_km)
 	ax.set_ylim(min_price, max_price)
 	ax.set_xlim(0, x_max)
@@ -88,13 +86,15 @@ def main():
 		# 	print(f"Loss function after {i} of {epochs} epochs returns: ", loss_function(m, b, data))
 	# print(f"{colors().GREEN}Final loss function result after {i} epochs is: ", loss_function(m, b, data), colors().END)
 	animation_store.append([m, b])
+	########### training the model end ###########
 	
-	#export m & b as thetas
+
+	########### export m & b as thetas start ###########
 	file = open('theta.py', 'w')
 	theta_content = "theta0 = " + str((b * max_price)) + "\r\n" + "theta1 = " + str((m * max_price / max_km)) + "\r\n"
 	file.write(theta_content)
 	file.close()
-	########### training the model end ###########
+	########### export m & b as thetas end ###########
 
 
 	############ denormalize data start ###########
@@ -106,28 +106,14 @@ def main():
 	############ denormalize data end ###########
 
 
-	plt.scatter(data.km, data.price, color="black")
-
-
-	# # Plot the resulting regression line
-	# tmp_max_km = max_km
-	# if input_mileage > max_km:
-	# 	tmp_max_km = input_mileage
-	# plt.plot(
-	# 	list(range(0, tmp_max_km)), 
-	# 	[m * x + b for x in range(0, tmp_max_km)], 
-	# 	color="green")
-	# # uncomment below for prediction marker
-	# plt.plot(input_mileage, estimate, marker="s", markersize=10, markerfacecolor="lightblue")
-	
-
 	######### animation helper start#########
 	def animate(n):
 		line.set_data(list(range(0, max_km)), [(animation_store[n][0] * (max_price / max_km) ) * x + (animation_store[n][1] * max_price ) for x in range(0, max_km)])
 	######### animation helper end#########
 	
 
-	anim = animation.FuncAnimation(fig, animate, frames=len(animation_store), interval=1000, repeat=False)
+	plt.scatter(data.km, data.price, color="black")
+	anim = animation.FuncAnimation(fig, animate, frames=len(animation_store), interval=20, repeat=False)
 	plt.show()
 
 

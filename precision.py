@@ -46,15 +46,6 @@ def main():
 	L = 0.1
 	epochs = 1000
 	mse_array = []
-	while 42:
-		try:
-			input_mileage = int(input(f"{colors().BLUE}Which mileage do you want to have a price estimation for? {colors().END}"))
-			if input_mileage < 0 or input_mileage > 1000000:
-				print(f"{colors().RED}Invalid input, please enter a positive integer value!{colors().END}")
-				continue
-			break
-		except:
-			print(f"{colors().RED}Invalid input, please enter a positive integer value!{colors().END}")
 
 
 	########### normalize data start ###########
