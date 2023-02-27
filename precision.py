@@ -35,9 +35,6 @@ def gradient_descent(m_now, b_now, data, L):
 	return (m_now, b_now)
 
 
-# minimum step size: 0.001 !!! for m_gradient * L
-# maximum number of steps: 1000
-
 def main():
 	try:
 		data = pd.read_csv('data.csv')
@@ -52,7 +49,7 @@ def main():
 	while 42:
 		try:
 			input_mileage = int(input(f"{colors().BLUE}Which mileage do you want to have a price estimation for? {colors().END}"))
-			if input_mileage < 0:
+			if input_mileage < 0 or input_mileage > 1000000:
 				print(f"{colors().RED}Invalid input, please enter a positive integer value!{colors().END}")
 				continue
 			break
