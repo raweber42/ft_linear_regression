@@ -46,16 +46,7 @@ def main():
 	b = 0
 	L = 0.1
 	epochs = 1000
-	while 42:
-		try:
-			input_mileage = int(input(f"{colors().BLUE}Which mileage do you want to have a price estimation for? {colors().END}"))
-			if input_mileage < 0 or input_mileage > 1000000:
-				print(f"{colors().RED}Invalid input, please enter a positive integer value!{colors().END}")
-				continue
-			break
-		except:
-			print(f"{colors().RED}Invalid input, please enter a positive integer value!{colors().END}")
-
+	
 
 	########### normalize data start ###########
 	print("\nNormalizing data from data.csv...")
@@ -72,10 +63,10 @@ def main():
 	########### prepare animation/graph start ###########
 	fig, ax = plt.subplots()
 	x_max = max_km
-	if input_mileage > max_km:
-		x_max = input_mileage
-	# ax.set_xlim(min_km, max_km)
-	# ax.set_ylim(min_price, max_price)
+	# if input_mileage > max_km:
+	# 	x_max = input_mileage
+	ax.set_xlim(min_km, max_km)
+	ax.set_ylim(min_price, max_price)
 	ax.set_xlim(0, x_max)
 	ax.set_ylim(0, 10000)
 	ax.set_xlabel('mileage')
@@ -115,23 +106,19 @@ def main():
 	############ denormalize data end ###########
 
 
-	estimate = round(estimate_price(input_mileage, m, b))
-	if estimate < 0:
-		estimate = 0
-	print(f"\n{colors().BLUE}ESTIMATED PRICE: ${estimate}{colors().END}\n")
 	plt.scatter(data.km, data.price, color="black")
 
 
-	# Plot the resulting regression line
-	tmp_max_km = max_km
-	if input_mileage > max_km:
-		tmp_max_km = input_mileage
-	plt.plot(
-		list(range(0, tmp_max_km)), 
-		[m * x + b for x in range(0, tmp_max_km)], 
-		color="green")
-	# uncomment below for prediction marker
-	plt.plot(input_mileage, estimate, marker="s", markersize=10, markerfacecolor="lightblue")
+	# # Plot the resulting regression line
+	# tmp_max_km = max_km
+	# if input_mileage > max_km:
+	# 	tmp_max_km = input_mileage
+	# plt.plot(
+	# 	list(range(0, tmp_max_km)), 
+	# 	[m * x + b for x in range(0, tmp_max_km)], 
+	# 	color="green")
+	# # uncomment below for prediction marker
+	# plt.plot(input_mileage, estimate, marker="s", markersize=10, markerfacecolor="lightblue")
 	
 
 	######### animation helper start#########
